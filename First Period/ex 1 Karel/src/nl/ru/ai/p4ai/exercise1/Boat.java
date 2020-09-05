@@ -2,8 +2,6 @@ package nl.ru.ai.p4ai.exercise1;
 
 import static nl.ru.ai.karel.Karel.*;
 
-import java.security.PublicKey;
-
 public class Boat {
 
   public static void main(String[] args) {
