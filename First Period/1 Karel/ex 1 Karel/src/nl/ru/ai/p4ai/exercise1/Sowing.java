@@ -33,9 +33,7 @@ public class Sowing {
         if (!inFrontOfWall()) {
           step();
           turnRight();
-        } else {
-          break;
-        }
+        } 
       }
     }
   }
