@@ -8,7 +8,7 @@ public class WordPalindrome {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Word: ");
+        System.out.print("Is this word a palindrome: ");
 
         String word = scanner.nextLine();
 
@@ -35,7 +35,17 @@ public class WordPalindrome {
             }
         }
 
-        System.out.println(palindrome);
+        if (palindrome) {
+
+            System.out.print(word);
+            System.out.print(" is a palindrome.");
+
+        } else {
+
+            System.out.print(word);
+            System.out.print(" isn't a palindrome.");
+
+        }
 
     }
 

@@ -15,11 +15,11 @@ public class Solver {
 
     public static void getABCandPrintSolution(Scanner scanner) {
 
-        System.out.print("A: ");
+        System.out.print("Give the A in your quadratic equation: ");
         double a = scanner.nextFloat();
-        System.out.print("B: ");
+        System.out.print("Give the B in your quadratic equation: ");
         double b = scanner.nextFloat();
-        System.out.print("C: ");
+        System.out.print("Give the C in your quadratic equation: ");
         double c = scanner.nextFloat();
 
         if (a == 0) {
@@ -58,6 +58,7 @@ public class Solver {
 
         double solution = -b / (2 * a);
 
+        System.out.print("Solution 1: ");
         System.out.println(solution);
 
     }
@@ -67,7 +68,9 @@ public class Solver {
         double solution1 = (-b + Math.sqrt(discriminant)) / (2 * a);
         double solution2 = (-b - Math.sqrt(discriminant)) / (2 * a);
 
+        System.out.print("Solution 1: ");
         System.out.println(solution1);
+        System.out.print("Solution 2: ");
         System.out.println(solution2);
 
     }

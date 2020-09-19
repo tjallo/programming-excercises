@@ -29,6 +29,9 @@ public class NewtonRaphson {
 
         }
 
+        System.out.print("The square root of ");
+        System.out.print(a);
+        System.out.print(" is ");
         System.out.println(Math.abs(xn));
 
     }
