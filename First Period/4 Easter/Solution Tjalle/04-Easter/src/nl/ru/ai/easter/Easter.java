@@ -100,7 +100,7 @@ public class Easter {
     Month month = monthInYearOfDayNumber(dayNumber, year);
     int monthNumber = month.number();
 
-    for (int i = 1; i < monthNumber; i++){
+    for (int i = 1; i < monthNumber; i++) {
       dayNumber -= numberOfDaysInMonth(year, Month.month(i));
     }
     return dayNumber;
@@ -108,11 +108,9 @@ public class Easter {
 
   static void holyPrinter(String occasion, int year, Month month, int day) {
 
-    System.out.println(occasion + " is on " + day + " " + month + " in " + year );
+    System.out.println(occasion + " is on " + day + " " + month + " in " + year);
 
   }
-
-
 
   static void showHolyDays(int year) {
 
@@ -143,7 +141,6 @@ public class Easter {
     holyPrinter("Ascension Day", year, ascensionDay_Month, ascensionDay_DayInMonth);
     holyPrinter("Whitsuntide", year, whitsuntideMonth, whitsuntideDayInMonth);
 
-
     // implement this function
   }
 
@@ -158,9 +155,101 @@ public class Easter {
     System.out.println(isLeapYear(2016)); // true
   }
 
+  static int getDayOfTheWeek(int year, Month monthName, int day) {
+
+    // Zeller implementation
+
+    int month = monthName.number();
+
+    if (month < 3) {
+      month += 12;
+      year -= 1;
+    }
+
+    int k = year % 100;
+    int j = year / 100;
+
+    int dayOfWeek = ((day + (((month + 1) * 26) / 10) + k + (k / 4) + (j / 4)) + (5 * j)) % 7;
+
+    return (dayOfWeek + 6) % 7;
+
+  }
+
+  static void FirstRowGenerator(int startDate1, int startDate2, int startDate3, Month month1, Month month2,
+      Month month3, int year) {
+    System.out.println(dateRowGenerator(startDate1, 1, month1, year) + " "
+        + dateRowGenerator(startDate2, 1, month2, year) + " " + dateRowGenerator(startDate3, 1, month3, year));
+  }
+
+  static void nThRowGenerator(int offset, int startDate1, int startDate2, int startDate3, Month month1, Month month2,
+      Month month3, int year) {
+    System.out.println(dateRowGenerator(0, offset - startDate1, month1, year) + " "
+        + dateRowGenerator(0, offset - startDate2, month2, year) + " "
+        + dateRowGenerator(0, offset - startDate3, month3, year));
+  }
+
+  static void allRowsGenerator(int year, Month month1, Month month2, Month month3) {
+    int startDate1 = getDayOfTheWeek(year, month1, 1);
+    int startDate2 = getDayOfTheWeek(year, month2, 1);
+    int startDate3 = getDayOfTheWeek(year, month3, 1);
+
+    FirstRowGenerator(startDate1, startDate2, startDate3, month1, month2, month3, year);
+    int ct = 8;
+    for (int i = 0; i < 5; i++) {
+      nThRowGenerator(ct, startDate1, startDate2, startDate3, month1, month2, month3, year);
+      ct += 7;
+    }
+  }
+
+  static void threeMonthGenerator(int year, Month month1, Month month2, Month month3) {
+    System.out.println();
+    System.out.println(month1 + "                     " + month2 + "                     " + month3);
+    System.out.println("Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa");
+    allRowsGenerator(year, month1, month2, month3);
+    System.out.println();
+
+  }
+
+  static String dateRowGenerator(int startPos, int startNumber, Month month, int year) {
+    int max = numberOfDaysInMonth(year, month);
+    String dateRow = "";
+    for (int i = 0; i < 7; i++) {
+      if (i >= startPos && startNumber <= max) {
+        if (startNumber < 10) {
+          dateRow += " " + startNumber + " ";
+        } else {
+          dateRow += startNumber + " ";
+        }
+        startNumber++;
+      } else {
+        dateRow += "   ";
+      }
+    }
+
+    return dateRow;
+  }
+
+  static void showYear(int year) {
+    System.out.println("");
+    System.out.println("                            " + year + "                               ");
+    int counter = 1;
+    for (int i = 0; i < 4; i++) {
+      threeMonthGenerator(year, Month.month(counter), Month.month(counter + 1), Month.month(counter + 2));
+      counter += 3;
+    }
+
+  }
+
   public static void main(String[] arguments) {
     // implement this function
-    showLeapYears();
-    showHolyDays(2020);
+
+    // These to were neccesairy for the exercises
+    // Comment and uncomment them accordingly
+    //
+    // showLeapYears();
+    // showHolyDays(2020);
+
+    showYear(1969);
+
   }
 }
