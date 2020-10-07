@@ -6,10 +6,7 @@ public class Easter {
 
     if (year % 4 == 0) {
       if (year % 100 == 0) {
-        if (year % 400 == 0) {
-          return true;
-        }
-        return false;
+        return year % 400 == 0;
       }
       return true;
     }
@@ -25,7 +22,7 @@ public class Easter {
       case NOVEMBER:
         return 30;
       case FEBRUARY:
-        Boolean leapyear = isLeapYear(year);
+        boolean leapyear = isLeapYear(year);
         if (leapyear) {
           return 29;
         }
@@ -250,6 +247,8 @@ public class Easter {
     // showHolyDays(2020);
 
     showYear(1969);
+
+//    System.out.println(dateRowGenerator(3, 5, Month.APRIL, 2020));
 
   }
 }
