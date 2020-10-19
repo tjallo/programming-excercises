@@ -26,7 +26,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="RunManager">
     <configuration name="GameOfLife" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -62,5 +62,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="650" y="197" key="FileChooserDialogImpl" timestamp="1602696201768">
+      <screen x="0" y="0" width="1739" height="939" />
+    </state>
+    <state x="650" y="197" key="FileChooserDialogImpl/-1920.0.1739.939/0.0.1739.939@0.0.1739.939" timestamp="1602696201768" />
   </component>
 </project>
