@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class GameOfLife {
 
@@ -17,18 +18,77 @@ public class GameOfLife {
     // showUniverse(uni);
 
     // Part 2
-    simulateUniverse("pulsar.txt");
-    
+    // simulateUniverse("pulsar.txt");
 
-    //Part 3
+    // Part 3
+    userMenu();
+  }
+
+  /**
+   * Show a menu to enter universe settings
+   */
+  static void userMenu() {
+
+    assert true;
+
+    Scanner scanner = new Scanner(System.in);
+
+    String configfile;
+    int runAmount, delay;
+
+    System.out.print("Enter the name of the config file you want to load: ");
+    configfile = scanner.nextLine();
+
+    System.out.print("Enter the number of times you want to generate a new population: ");
+    runAmount = scanner.nextInt();
+
+    System.out.print("Enter the delay (in miliseconds) you want beteween population generation: ");
+    delay = scanner.nextInt();
+
+    System.out.println();
+    System.out.println("Running with the following configuration:");
+    System.out.println("Configfile: " + configfile);
+    System.out.println("No. of populations you want to simulate: " + runAmount);
+    System.out.println("Delay between population generation (ms): " + delay);
+    System.out.println();
+
+    scanner.close();
+    customUniverse(configfile, runAmount, delay);
+
+    System.out.println("Done.");
+
+  }
+
+  /**
+   * Allows the user to run a universe simulation with custom settings.
+   * 
+   * @param configfile
+   * @param runAmount
+   * @param delay
+   */
+  static void customUniverse(String configfile, int runAmount, int delay) {
+
+    assert configfile != null : "You should enter a valid configfile name";
+    assert delay > 0 : "Delay should be a postivie integer";
+    assert runAmount > 0 : "The amount of times a new generation has to be generated should be more than 0";
+
+    Cell[][] universe = readUniverseFile(configfile);
+
+    for (int i = 0; i < runAmount; i++) {
+      showUniverse(universe);
+      universe = nextGeneration(universe);
+      sleep(delay);
+    }
+
   }
 
   /**
    * Simulate the universe using text file
+   * 
    * @param fileName
    */
   static void simulateUniverse(String fileName) {
-    assert true;
+    assert fileName != null : "Enter a valid filename";
 
     Cell[][] uni = readUniverseFile(fileName);
 
@@ -47,7 +107,8 @@ public class GameOfLife {
    */
   static Cell[][] readUniverseFile(String fileName) {
 
-    assert true;
+    assert fileName != null : "Enter a valid filename";
+
     // enter your code here
 
     Cell[][] result = new Cell[40][60];
@@ -120,7 +181,8 @@ public class GameOfLife {
    * @param universe
    */
   private static void showUniverse(Cell[][] universe) {
-    assert true;
+    assert universe != null : "Enter a valid universe";
+
     // enter your code here
     for (int row = 0; row < 40; row++) {
       for (int col = 0; col < 60; col++) {
@@ -189,7 +251,8 @@ public class GameOfLife {
    *         cells int[1] will be the amount of dead cells
    */
   private static int[] getDeadAliveCount(Cell[] neighbours) {
-    assert true;
+    assert neighbours != null : "Enter a valid neighbours array";
+
     int[] deadAliveCount = { 0, 0 };
 
     for (int i = 0; i < 8; i++) {
@@ -218,7 +281,8 @@ public class GameOfLife {
    * @return the value of the next cell
    */
   private static Cell determineNextCell(Cell cell, Cell[] neighbours) {
-    assert true;
+    assert neighbours != null : "Enter a valid neighbours array";
+
     int[] deadAliveCount = getDeadAliveCount(neighbours);
 
     int aliveCount = deadAliveCount[0];
@@ -241,10 +305,10 @@ public class GameOfLife {
    */
   private static Cell[][] nextGeneration(Cell[][] universe) {
     // enter your code here
-    assert true;
+    assert universe != null : "Enter a valid universe";
 
-    for (int row = 0; row < 40; row++) {
-      for (int col = 0; col < 60; col++) {
+    for (int row = 1; row < 39; row++) {
+      for (int col = 1; col < 59; col++) {
         Cell currentCell = universe[row][col];
         Cell[] neighbours = getNeighbours(universe, row, col);
 
