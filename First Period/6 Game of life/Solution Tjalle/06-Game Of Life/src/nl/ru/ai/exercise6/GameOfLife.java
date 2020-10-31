@@ -124,6 +124,10 @@ public class GameOfLife {
     }
   }
 
+  /**
+   * same as Simulate universe but with added colour functionality
+   * @param fileName
+   */
   static void simulateUniverseWithColourAge(String fileName) {
     assert fileName != null : "Enter a valid filename";
     int[][] ageTable = createAgeTableWithZeroes();
@@ -139,7 +143,12 @@ public class GameOfLife {
     }
   }
 
+  /**
+   * Initizialize a correct array to be used with ageTable
+   * @return
+   */
   static int[][] createAgeTableWithZeroes() {
+    assert true;
     int[][] ageTable = new int[40][60];
 
     for (int row = 0; row < 40; row++) {
@@ -244,6 +253,11 @@ public class GameOfLife {
 
   }
 
+  /**
+   * Determine colour for certain ages in agetable
+   * @param age
+   * @return
+   */
   private static Color determineColour(int age) {
     switch (age) {
       case 0:
@@ -265,6 +279,11 @@ public class GameOfLife {
     }
   }
 
+  /**
+   * same as showUniverse but with added functionality for age colouring
+   * @param universe
+   * @param ageTable
+   */
   private static void showUniverseWithAgeColouring(Cell[][] universe, int[][] ageTable) {
     assert universe != null : "Enter a valid universe";
 
@@ -383,7 +402,12 @@ public class GameOfLife {
 
   }
 
+  /**
+   * Creates a fully dead universe which can be used with the generation of the next universe
+   * @return
+   */
   private static Cell[][] createFullyDeadUniverse() {
+    assert true;
 
     Cell[][] deadUniverse = new Cell[40][60];
 
