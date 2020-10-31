@@ -3,6 +3,7 @@ package nl.ru.ai.exercise6;
 import nl.ru.ai.gameoflife.Cell;
 import static nl.ru.ai.gameoflife.Universe.*;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,7 +19,10 @@ public class GameOfLife {
     // showUniverse(uni);
 
     // Part 2
-    // simulateUniverse("pulsar.txt");
+    // Simulate with colour
+    // simulateUniverse("gosperglidergun.txt");
+    // Simulate without Colour
+    // simulateUniverseWithColourAge("gosperglidergun.txt");
 
     // Part 3
     userMenu();
@@ -34,7 +38,7 @@ public class GameOfLife {
     Scanner scanner = new Scanner(System.in);
 
     String configfile;
-    int runAmount, delay;
+    int runAmount, delay, withColour;
 
     System.out.print("Enter the name of the config file you want to load: ");
     configfile = scanner.nextLine();
@@ -45,15 +49,23 @@ public class GameOfLife {
     System.out.print("Enter the delay (in miliseconds) you want beteween population generation: ");
     delay = scanner.nextInt();
 
+    System.out.print("Do you want to simulate with colour for age (1) or without colour for age (0): ");
+    withColour = scanner.nextInt();
+
     System.out.println();
     System.out.println("Running with the following configuration:");
     System.out.println("Configfile: " + configfile);
     System.out.println("No. of populations you want to simulate: " + runAmount);
     System.out.println("Delay between population generation (ms): " + delay);
+    if (withColour == 1) {
+      System.out.println("With colour");
+    } else {
+      System.out.println("Without colour");
+    }
     System.out.println();
 
     scanner.close();
-    customUniverse(configfile, runAmount, delay);
+    customUniverse(configfile, runAmount, delay, withColour);
 
     System.out.println("Done.");
 
@@ -66,18 +78,31 @@ public class GameOfLife {
    * @param runAmount
    * @param delay
    */
-  static void customUniverse(String configfile, int runAmount, int delay) {
+  static void customUniverse(String configfile, int runAmount, int delay, int withColour) {
 
     assert configfile != null : "You should enter a valid configfile name";
     assert delay > 0 : "Delay should be a postivie integer";
     assert runAmount > 0 : "The amount of times a new generation has to be generated should be more than 0";
+    assert withColour != 1 || withColour != 0 : "The colour config has to be either a one or a zero";
 
     Cell[][] universe = readUniverseFile(configfile);
 
-    for (int i = 0; i < runAmount; i++) {
-      showUniverse(universe);
-      universe = nextGeneration(universe);
-      sleep(delay);
+    if (withColour == 1) {
+      int[][] ageTable = createAgeTableWithZeroes();
+      ageTable = determineAgeTable(ageTable, universe);
+
+      for (int i = 0; i < runAmount; i++) {
+        showUniverseWithAgeColouring(universe, ageTable);
+        universe = nextGeneration(universe);
+        ageTable = determineAgeTable(ageTable, universe);
+        sleep(delay);
+      }
+    } else {
+      for (int i = 0; i < runAmount; i++) {
+        showUniverse(universe);
+        universe = nextGeneration(universe);
+        sleep(delay);
+      }
     }
 
   }
@@ -95,8 +120,35 @@ public class GameOfLife {
     while (true) {
       showUniverse(uni);
       uni = nextGeneration(uni);
-      sleep(250);
+      sleep(100);
     }
+  }
+
+  static void simulateUniverseWithColourAge(String fileName) {
+    assert fileName != null : "Enter a valid filename";
+    int[][] ageTable = createAgeTableWithZeroes();
+
+    Cell[][] uni = readUniverseFile(fileName);
+    ageTable = determineAgeTable(ageTable, uni);
+
+    while (true) {
+      showUniverseWithAgeColouring(uni, ageTable);
+      uni = nextGeneration(uni);
+      ageTable = determineAgeTable(ageTable, uni);
+      sleep(100);
+    }
+  }
+
+  static int[][] createAgeTableWithZeroes() {
+    int[][] ageTable = new int[40][60];
+
+    for (int row = 0; row < 40; row++) {
+      for (int col = 0; col < 60; col++) {
+        ageTable[row][col] = 0;
+      }
+    }
+
+    return ageTable;
   }
 
   /**
@@ -187,6 +239,40 @@ public class GameOfLife {
     for (int row = 0; row < 40; row++) {
       for (int col = 0; col < 60; col++) {
         updateScreen(row, col, universe[row][col]);
+      }
+    }
+
+  }
+
+  private static Color determineColour(int age) {
+    switch (age) {
+      case 0:
+        return Color.ORANGE;
+      case 1:
+        return Color.BLUE;
+      case 2:
+        return Color.CYAN;
+      case 3:
+        return Color.GREEN;
+      case 4:
+        return Color.LIGHT_GRAY;
+      case 5:
+        return Color.GRAY;
+      case 6:
+        return Color.DARK_GRAY;
+      default:
+        return Color.BLACK;
+    }
+  }
+
+  private static void showUniverseWithAgeColouring(Cell[][] universe, int[][] ageTable) {
+    assert universe != null : "Enter a valid universe";
+
+    // enter your code here
+    for (int row = 0; row < 40; row++) {
+      for (int col = 0; col < 60; col++) {
+        Color color = determineColour(ageTable[row][col]);
+        updateScreen(row, col, universe[row][col], color);
       }
     }
 
@@ -297,6 +383,20 @@ public class GameOfLife {
 
   }
 
+  private static Cell[][] createFullyDeadUniverse() {
+
+    Cell[][] deadUniverse = new Cell[40][60];
+
+    for (int row = 0; row < 40; row++) {
+      for (int col = 0; col < 60; col++) {
+        deadUniverse[row][col] = Cell.DEAD;
+      }
+    }
+
+    return deadUniverse;
+
+  }
+
   /**
    * Calculates the next generation of a universe
    * 
@@ -307,6 +407,8 @@ public class GameOfLife {
     // enter your code here
     assert universe != null : "Enter a valid universe";
 
+    Cell[][] newUniverse = createFullyDeadUniverse();
+
     for (int row = 1; row < 39; row++) {
       for (int col = 1; col < 59; col++) {
         Cell currentCell = universe[row][col];
@@ -314,11 +416,41 @@ public class GameOfLife {
 
         Cell nextCell = determineNextCell(currentCell, neighbours);
 
-        universe[row][col] = nextCell;
+        newUniverse[row][col] = nextCell;
       }
     }
 
-    return universe;
+    return newUniverse;
+  }
+
+  /**
+   * Determines the next generation of agetable using the old age table and the
+   * new universe
+   * 
+   * @param ageTable
+   * @param newUniverse
+   * @return
+   */
+  private static int[][] determineAgeTable(int[][] ageTable, Cell[][] newUniverse) {
+    assert ageTable != null : "ageTable must not be empty";
+    assert ageTable.length > 0 : " ageTable must be initzialized";
+    assert newUniverse != null : "newUniverse must not be empty";
+
+    for (int row = 0; row < 40; row++) {
+      for (int col = 0; col < 60; col++) {
+        Cell currentNewCell = newUniverse[row][col];
+
+        if (currentNewCell == Cell.DEAD) {
+          ageTable[row][col] = 0;
+        } else if (currentNewCell == Cell.LIVE) {
+          ageTable[row][col]++;
+        }
+
+      }
+    }
+
+    return ageTable;
+
   }
 
 }
