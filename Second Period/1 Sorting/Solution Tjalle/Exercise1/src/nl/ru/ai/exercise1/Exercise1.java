@@ -266,7 +266,7 @@ public class Exercise1 {
    * Sorts an array in situ in ascending order using bubble sort
    * 
    * @param array
-   * @param length
+   *
    */
   static <T extends Comparable<T>> void bubbleSort(ArrayList<T> array) {
     assert array != null : "array should be initialized";
@@ -299,7 +299,7 @@ public class Exercise1 {
    * Sorts an array in situ in ascending order using insertion sort
    * 
    * @param array
-   * @param length
+   *
    */
   static <T extends Comparable<T>> void insertionSort(ArrayList<T> array) {
     assert array != null : "array should be initialized";
