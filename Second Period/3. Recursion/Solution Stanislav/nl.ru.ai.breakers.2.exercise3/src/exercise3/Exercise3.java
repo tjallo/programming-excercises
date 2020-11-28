@@ -40,7 +40,14 @@ public class Exercise3 {
 
     }
 
+    /**
+     * calculate the sum of numbers from 0 up to n using recursion
+     *
+     * @param n number to which the su is calculated
+     * @return sum of 0 to n
+     */
     private static int sum(int n) {
+        assert n >= 0 : "n must be positive";
         if (n == 0)
             return 0;
         else {
@@ -48,7 +55,15 @@ public class Exercise3 {
         }
     }
 
+    /**
+     * calculates  x to the power n using recursion
+     *
+     * @param x the base
+     * @param n the exponent
+     * @return x to the power n
+     */
     private static int power(int x, int n) {
+        assert true;
         if (n == 0)
             return 1;
         else {
@@ -56,7 +71,15 @@ public class Exercise3 {
         }
     }
 
+    /**
+     * returns the minimum value of two arguments using recursion
+     *
+     * @param a integer array
+     * @param n index n
+     * @return minimum value of two arguments
+     */
     private static int minimum(int[] a, int n) {
+        assert a != null : "array must be initialized";
         if (n == 0)
             return a[0];
         else {
@@ -65,7 +88,15 @@ public class Exercise3 {
 
     }
 
+    /**
+     * calculates the greatest common divisor of two arguments using recursion
+     *
+     * @param n first argument
+     * @param m second argument
+     * @return the greatest common divisor
+     */
     private static int gcd(int n, int m) {
+        assert true;
         if (m == 0)
             return n;
         else if (n < m)
@@ -75,7 +106,16 @@ public class Exercise3 {
         }
     }
 
+    /**
+     * returns the integer value of the pascal triangle at index(row,col) using recursion
+     *
+     * @param row row of the index
+     * @param col column of the index
+     * @return integer value
+     */
     public static int pascal(int row, int col) {
+        assert row >= 0 : "row cannot be negative";
+        assert col >= 0 : "column cannot be negative";
         if (row == 0 || row == 1 || col == 0 || col == row)
             return 1;
         else {
@@ -83,7 +123,14 @@ public class Exercise3 {
         }
     }
 
+    /**
+     * calculates the fibonacci row using recursion
+     *
+     * @param n index of the highest fibonacci number in the row
+     * @return fibonacci number
+     */
     static int fib(int n) {
+        assert n >= 0 : "number cannot be negative";
         if (n == 0 || n == 1)
             return 1;
         else {
@@ -91,7 +138,16 @@ public class Exercise3 {
         }
     }
 
+    /**
+     * calculates the fibonacci row with the help of an array using recursion
+     *
+     * @param n     index of the highest fibonacci number in the row
+     * @param array help array
+     * @return fibonacci number
+     */
     static int fibImproved(int n, int[] array) {
+        assert n >= 0 : "number cannot be negative";
+        assert array != null : "array must be initialized";
         array[0] = 1;
         array[1] = 1;
         if (array[n] != 0)

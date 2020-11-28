@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Exercise2 {
     public static void main(String[] arguments) throws IOException {
@@ -94,23 +93,19 @@ public class Exercise2 {
 
         heap sort
         the whole algorithm heap sort is of running time complexity O(n log n)
-
-
-         */
-
-
-
+        */
 
     }
 
     /**
      * fills the arrayList with the Characters of a file
      *
-     * @param source
-     * @param fileName
+     * @param source   the array with the duplicates inside
+     * @param fileName name of the file from which the array elements are read
      * @return the arrayList filled with the characters
      */
     public static ArrayList<Character> fillArray(ArrayList<Character> source, String fileName) {
+        assert source != null : "array must be initialized";
         try {
             FileInputStream inputStream = new FileInputStream(fileName);
             InputStreamReader reader = new InputStreamReader(inputStream);
@@ -130,8 +125,8 @@ public class Exercise2 {
     /**
      * Copies Characters from the source arrayList to the destination arrayList, without duplicates
      *
-     * @param source
-     * @param destination
+     * @param source      array with duplicates
+     * @param destination array without duplicates
      * @return number of comparisons made
      */
     private static int removeDuplicates(ArrayList<Character> source, ArrayList<Character> destination) {
@@ -146,12 +141,13 @@ public class Exercise2 {
     /**
      * Copy a character to the destination arrayList, without duplicates
      *
-     * @param character
-     * @param destination
+     * @param character   character which has to be checked
+     * @param destination array without duplicates
      * @return number of comparisons made
      */
     private static int addWithoutDuplicates(Character character, ArrayList<Character> destination) {
         assert destination != null : "Destination array should be initialized";
+        assert character != null : "a character must be specified";
         int i = 0;
         while (i < destination.size() && destination.get(i) != character)
             i++;
@@ -160,6 +156,13 @@ public class Exercise2 {
         return i;
     }
 
+    /**
+     * Copies Characters from the sorted source arrayList to the destination arrayList, without duplicates
+     *
+     * @param source      array with duplicates
+     * @param destination final array without duplicates
+     * @return amount of checks made
+     */
     private static int removeSortedDuplicates(ArrayList<Character> source, ArrayList<Character> destination) {
         assert source != null : "Source array should be initialized";
         assert destination != null : "Destination array should be initialized";
