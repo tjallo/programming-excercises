@@ -35,7 +35,8 @@ public class Exercise3 {
          */
         //Exercise 2.b
         int[] fibArray = new int[1000];
-        fibImproved(1000, fibArray);
+        for(int i=0;i<10;i++)
+            System.out.println(fibImproved(i, fibArray));
 
 
     }
@@ -153,6 +154,7 @@ public class Exercise3 {
         if (array[n] != 0)
             return array[n];
         else {
+            array[n]=array[n-1]+array[n-2];
             return fibImproved(n - 1, array) + fibImproved(n - 2, array);
         }
     }
