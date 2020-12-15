@@ -68,15 +68,14 @@ public class Exercise4 {
          */
 
         //Exercise 2
-        System.out.println("Exercise 2 \n");
-        int[] persons = {15, 24, 32, 40, 50, 60, 72, 80, 90};
-        int limit = 250;
-        ArrayList<Integer> s = new ArrayList<Integer>();
+        ArrayList<Integer> people = new ArrayList<Integer>();
+        ArrayList<Integer> addedPeople = new ArrayList<Integer>();
+        int weigth = 0;
 
-        System.out.println("number of solutions: " + lift(persons, 0, limit, s, 0));
-        System.out.println("number of fails: " + nrOfFails);
-        System.out.println("number of prunes: " + nrOfPrunes);
-        System.out.println("\n");
+        initList(people);
+
+        System.out.println(getMax(people, weigth, addedPeople));
+        System.out.println(addedPeople.toString());
 
 
         //Exercise 3
@@ -103,6 +102,7 @@ public class Exercise4 {
 
     /**
      * outprints solutions and amount of fails and prunes
+     *
      * @param solutions
      * @param money
      * @param target
@@ -212,42 +212,45 @@ public class Exercise4 {
     }
 
     /**
-     * @param persons array with persons
-     * @param p       index of person
-     * @param limit   the maximum load
-     * @param l       arrayList with possible combinations for the lift
-     * @return amount of possible combinations
+     * Initializes the ArrayList with array entries
+     *
+     * @param list ArrayList which has to be initialized
      */
-    private static int lift(int[] persons, int p, int limit, ArrayList<Integer> l, int passengers) {
-        assert persons != null : "array should be initialized";
-        assert p >= 0 && p <= persons.length;
+    private static void initList(ArrayList<Integer> list) {
+        assert list != null : "Array must be initialized";
 
-        if (limit >= 0 && passengers == 6) {
-            showSolution(l);
-            return 1;
+        int[] peopleArr = {15, 24, 32, 40, 50, 60, 72, 80, 90};
+
+        for (int i = 0; i < peopleArr.length; i++) {
+            list.add(peopleArr[i]);
         }
-        if (limit < 0) {
-            nrOfFails++;
-            return 0;
+
+    }
+
+    /**
+     * Recursive program that finds a group of people that does not exceed the
+     * maximum capacities
+     *
+     * @param people      weights of the people
+     * @param weight      peoples weight added
+     * @param addedPeople ArrayList with the solution
+     * @return weight of the people
+     */
+    private static int getMax(ArrayList<Integer> people, int weight, ArrayList<Integer> addedPeople) {
+        assert people != null : "Array must be initialized";
+        assert people.size() > 0 : "People array must not be empty";
+        assert addedPeople != null : "addedPeople array must not be empty";
+
+        int goal = 250;
+
+        if (weight + people.get(people.size() - 1) < goal) {
+            addedPeople.add(people.get(people.size() - 1));
+            weight += people.get(people.size() - 1);
+            people.remove(people.size() - 1);
+            return getMax(people, weight, addedPeople);
         }
-        if (p >= persons.length) {
-            nrOfFails++;
-            return 0;
-        }
-        if (sumTooSmall(persons, limit, p)) {
-            nrOfPrunes++;
-            return 0;
-        }
-        if (numberTooBig(persons, limit, p)) {
-            nrOfPrunes++;
-            return 0;
-        } else {
-            l.add(persons[p]);
-            int with = lift(persons, p + 1, limit - persons[p], l, passengers + 1);
-            l.remove(l.size() - 1);
-            int without = lift(persons, p + 1, limit, l, passengers);
-            return with + without;
-        }
+        return weight;
+
     }
 
     /**
@@ -276,7 +279,7 @@ public class Exercise4 {
     private static boolean isValid(int[] puzzle) {
 
         for (int row = 0; row <= 72; row += 9) {
-            for (int col = row; col < row+8; col++) {
+            for (int col = row; col < row + 8; col++) {
                 if (puzzle[row] == puzzle[col]) {
                     return false;
                 }
@@ -296,7 +299,7 @@ public class Exercise4 {
                 return false;
             }
         }
-        if(puzzle[0]==puzzle[10]||puzzle[0]==puzzle[11]||puzzle[0]==puzzle[18]){
+        if (puzzle[0] == puzzle[10] || puzzle[0] == puzzle[11] || puzzle[0] == puzzle[18]) {
 
         }
 
