@@ -75,8 +75,7 @@ public class Exercise4 {
         ArrayList<Integer> sList = new ArrayList<Integer>();
         ArrayList<Integer> bestArList = new ArrayList<Integer>();
 
-        showSolutionsLift(persons, 0, limit, sList, 0, bestArList);
-
+        showSolutionsLift(persons, limit, sList, bestArList);
 
 
         //Exercise 3
@@ -105,10 +104,10 @@ public class Exercise4 {
      *
      * @param bestArList lsit with best solution
      */
-    private static void showSolutionsLift(int[] persons, int p, int limit, ArrayList<Integer> list,
-                                          int passengers, ArrayList<Integer> bestArList) {
-        System.out.println("highest possible load: " + lift (persons,  p, limit, list, passengers, bestArList)+" kg");
-        System.out.println("\n"+ bestArList);
+    private static void showSolutionsLift(int[] persons, int limit, ArrayList<Integer> list,
+                                          ArrayList<Integer> bestArList) {
+        System.out.println("highest possible load: " + lift(persons, 0, limit, list, 0, bestArList) + " kg");
+        System.out.println("\n" + bestArList);
     }
 
     /**
@@ -228,22 +227,6 @@ public class Exercise4 {
     }
 
     /**
-     * finds the biggest List of all, so the best solutions
-     *
-     * @param ArList ArrayList of ArrayLists of passengers
-     */
-    private static ArrayList<Integer> biggestList(ArrayList<ArrayList<Integer>> ArList) {
-        assert ArList != null : "list must be initialized";
-        ArrayList<Integer> finaList = ArList.get(0);
-        for (int i = 1; i < ArList.size(); i++) {
-            if (sumAl(ArList.get(i)) > sumAl(finaList)) {
-                finaList = ArList.get(i);
-            }
-        }
-        return finaList;
-    }
-
-    /**
      * returns sum of all arrayList elements
      *
      * @param list arrayList with weights
@@ -275,15 +258,15 @@ public class Exercise4 {
             nrOfFails++;
             return 0;
         }
-        if(p > 7 && list.size() <= 6){
-            if(bestArList.size() == 0)
+        if (p > 7 && list.size() <= 6) {
+            if (bestArList.size() == 0)
                 bestArList.addAll(list);
-            else if(sumAl(list) > sumAl(bestArList)) {
+            else if (sumAl(list) > sumAl(bestArList)) {
                 bestArList.clear();
                 bestArList.addAll(list);
             }
             return sumAl(list);
-        
+
         } else {
             list.add(persons[p]);
             int with = lift(persons, p + 1, limit - persons[p], list, passengers + 1, bestArList);
@@ -293,32 +276,6 @@ public class Exercise4 {
         }
     }
 
-    /**
-     * adds the current list to the ArrayList of lists
-     *
-     * @param ArList ArrayList of lists
-     * @param list   list of solutions
-     */
-    private static void addToList(ArrayList<ArrayList<Integer>> ArList, ArrayList<Integer> list) {
-        assert ArList != null : "list must be initialized";
-        assert list != null : "list must be initialized";
-        ArList.add(list);
-    }
-
-    /**
-     * checks if the next biggest weight in the array is addable without going over the limit
-     *
-     * @param persons array with persons
-     * @param p       index of person
-     * @param limit   the maximum load
-     * @return whether the next biggest weight is addable
-     */
-    private static boolean notMoreAddable(int[] persons, int p, int limit) {
-        if (p < persons.length) {
-            return limit - persons[p] < 0;
-        }
-        return false;
-    }
 
     /**
      * solves a given sudoku and prints the solved sudoku
