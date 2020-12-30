@@ -73,13 +73,9 @@ public class Exercise4 {
         int limit = 250;
 
         ArrayList<Integer> sList = new ArrayList<Integer>();
-        ArrayList<ArrayList<Integer>> ArList = new ArrayList<ArrayList<Integer>>();
-        //System.out.println("there are " + lift(persons, 0, limit, sList, 0, ArList) + " solutions");
-        //System.out.println("the best solution is: ");
-        //showSolution(biggestList(ArList));
+        ArrayList<Integer> bestArList = new ArrayList<Integer>();
 
-        lift(persons, 0, limit, sList, 0, ArList);
-        showSolutionsLift(persons, limit, sList, ArList);
+        showSolutionsLift(persons, 0, limit, sList, 0, bestArList);
 
 
 
@@ -105,17 +101,14 @@ public class Exercise4 {
     }
 
     /**
-     * shows the solutions of lift
+     * shows the best solutions of lift
      *
-     * @param persons array with weighs of persons
-     * @param limit   maximal capacity of lift
-     * @param sList   ArrayList with possible passengers
+     * @param bestArList lsit with best solution
      */
-    private static void showSolutionsLift(int[] persons, int limit, ArrayList<Integer> sList,
-                                          ArrayList<ArrayList<Integer>> ArList) {
-        System.out.println("number of solutions: " + lift(persons, 0, limit, sList, 0, ArList));
-        System.out.println("number of fails: " + nrOfFails);
-        System.out.println("\n");
+    private static void showSolutionsLift(int[] persons, int p, int limit, ArrayList<Integer> list,
+                                          int passengers, ArrayList<Integer> bestArList) {
+        System.out.println("highest possible load: " + lift (persons,  p, limit, list, passengers, bestArList)+" kg");
+        System.out.println("\n"+ bestArList);
     }
 
     /**
@@ -274,28 +267,29 @@ public class Exercise4 {
      * @return amount of possible combinations
      */
     private static int lift(int[] persons, int p, int limit, ArrayList<Integer> list,
-                            int passengers, ArrayList<ArrayList<Integer>> ArList) {
+                            int passengers, ArrayList<Integer> bestArList) {
         assert persons != null : "array should be initialized";
         assert p >= 0 && p <= persons.length;
 
-        if (limit >= 0 && passengers <= 6 && notMoreAddable(persons, p, limit)) {
-            showSolution(list);
-            //addToList(ArList, list);
-            return 1;
-        }
         if (limit < 0) {
             nrOfFails++;
             return 0;
         }
-        if (p >= persons.length) {
-            nrOfFails++;
-            return 0;
+        if(p > 7 && list.size() <= 6){
+            if(bestArList.size() == 0)
+                bestArList.addAll(list);
+            else if(sumAl(list) > sumAl(bestArList)) {
+                bestArList.clear();
+                bestArList.addAll(list);
+            }
+            return sumAl(list);
+        
         } else {
             list.add(persons[p]);
-            int with = lift(persons, p + 1, limit - persons[p], list, passengers + 1, ArList);
+            int with = lift(persons, p + 1, limit - persons[p], list, passengers + 1, bestArList);
             list.remove(list.size() - 1);
-            int without = lift(persons, p + 1, limit, list, passengers, ArList);
-            return with + without;
+            int without = lift(persons, p + 1, limit, list, passengers, bestArList);
+            return Math.max(with, without);
         }
     }
 
